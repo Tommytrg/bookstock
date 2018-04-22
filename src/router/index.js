@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import ListCatalog from '@/components/ListCatalog'
 import BookList from '@/components/BookList'
-import Home from '@/views/Home'
 
 Vue.use(Router)
 
@@ -9,13 +9,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'ListCatalog',
+      component: ListCatalog
     },
     {
-      path: '/booklist',
+      path: '/booklist/:id',
       name: 'BookList',
-      component: BookList
+      component: BookList,
+      props: true
     }
   ]
 })

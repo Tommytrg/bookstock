@@ -21,9 +21,9 @@
       </tr>
       <tr>
         <td><input v-model.trim="newBook.title" placeholder=""></td>
-        <td><input v-model="newBook.author" placeholder=""></td>
-        <td><input v-model="newBook.owned" placeholder=""></td>
-        <td><input v-model="newBook.read" placeholder=""></td>
+        <td><input v-model.trim="newBook.author" placeholder=""></td>
+        <td><input v-model.trim="newBook.owned" placeholder=""></td>
+        <td><input v-model.trim="newBook.read" placeholder=""></td>
         <td><button @click="addBook">Add book</button></td>
       </tr>
     </table>
@@ -72,7 +72,7 @@ export default {
     }
   },
   created: function () {
-    var booksRef = firebase.database().ref('/books')
+    var booksRef = firebase.database().ref(`/bookLists/${this.$route.params.id}/books`)
     booksRef.on('value', (snapshot) => {
       const booksIDs = snapshot.val()
       this.books = Object.keys(booksIDs).map(id => Object.assign({}, booksIDs[id], { id }))
@@ -81,12 +81,12 @@ export default {
   methods: {
     addBook: function () {
       if (this.checkForm()) {
-        firebase.database().ref('books').push(this.newBook)
+        firebase.database().ref(`/bookLists/${this.$route.params.id}/books`).push(this.newBook)
         this.newBook = { title: '', author: '', owned: '', read: '' }
       }
     },
     removeBook: function (id) {
-      firebase.database().ref(`/books/${id}`).once('value').then((snapshot) => {
+      firebase.database().ref(`/bookLists/${this.$route.params.id}/books/${id}`).once('value').then((snapshot) => {
         snapshot.ref.remove()
       })
     },
